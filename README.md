@@ -7,8 +7,8 @@ The app takes as input a name of a city and presents the user with the weather i
 
 # Installation
 
-npm install api
+npm install api<br/>
 npm install fp-frontend
 
-npm run start - server
+npm run start - server<br/>
 npm run start - client
