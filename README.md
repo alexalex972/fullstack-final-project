@@ -2,8 +2,9 @@
 INF310b Full-stack JavaScript React and Express - Final Project
 
 
-# Weather App
+# Weather App + CRUD
 The app takes as input a name of a city and presents the user with the weather infromation about it.
+CRUD users
 
 # Installation
 
