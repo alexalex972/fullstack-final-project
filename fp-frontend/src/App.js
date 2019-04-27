@@ -1,78 +1,48 @@
 import React, { Component } from "react";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+
+import Home from './components/home.component'
+import Create from './components/create.component.js';
+import Edit from './components/edit.component';
+import Index from './components/index.component';
+import Weather from './components/weather.component';
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            city: '',
-            temp: '',
-            humidity: '',
-            wind: '',
-            search: 'Sofia'
-        };
-
-        this.sum = (event) => {
-            this.setState({search: event.target.value.toLowerCase()});
-            console.log(this.state.search);
-            this.fetchWeather();
-        };
-        this.onChange = (name) => (event) =>{
-            this.setState({
-              [name]: (event.target.value)
-            });
-          }
-    }
-
-    fetchWeather = () => {
-        fetch(`http://localhost:5000/weather/${this.state.search}`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                this.setState({
-                    temp: Math.round(data.data.main.temp - 273.15) + '°',
-                    city: data.data.name,
-                    humidity: data.data.main.humidity + '%',
-                    wind: Math.round(data.data.wind.speed) + ' mph',
-                });
-            })
-            .catch(err => console.log(err));
-    }
-
-    componentWillMount() {
-        this.fetchWeather();
-    }
-
     render() {
-        return (
-            <div className="App">
-                    <label>
-                        <input type="text" value={this.state.search} onChange={this.onChange('search')} />
-                    </label>
-                    <button onClick={this.sum}> Search </button>
-                <List component="nav" style={{
-                    width: 300,
-                    color: "white",
-                    backgroundColor: "#282c34"
-                }}>
-                    <ListItem button >
-                        <ListItemText disableTypography primary={this.state.city} style={{ color: "white" }} />
-                    </ListItem>
-                    <ListItem button>
-                        <ListItemText disableTypography primary={this.state.temp} />
-                    </ListItem>
-                    <ListItem button>
-                        <ListItemText disableTypography primary={this.state.humidity} />
-                    </ListItem>
-                    <ListItem button>
-                        <ListItemText disableTypography primary={this.state.wind} />
-                    </ListItem>
-                </List>
-            </div>
-        );
+      return (
+        <Router>
+          <div className="container bg-light">
+            <nav className="navbar navbar-expand-lg bg-info">
+              <div className="navbar-brand  text-light">Fullstack Project</div>
+              <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul className="navbar-nav mr-auto">
+                <li className="nav-item">
+                    <Link to={'/'} className="nav-link  text-light">Home</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to={'/create'} className="nav-link  text-light">Create</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to={'/index'} className="nav-link  text-light">List</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to={'/weather'} className="nav-link  text-light">Weather</Link>
+                  </li>
+                </ul>
+              </div>
+            </nav> <br/>
+            <Switch>
+                <Route exact path="/" component={ Home }/>
+                <Route exact path='/create' component={ Create } />
+                <Route path='/edit/:id' component={ Edit } />
+                <Route path='/index' component={ Index } />
+                <Route path='/weather' component={ Weather } />
+            </Switch>
+          </div>
+        </Router>
+      );
     }
-}
-export default App;
+  }
+  
+  export default App;
